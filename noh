@@ -1,0 +1,122 @@
+-- Create a ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "FruitSpawnerGui"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Create a Frame to hold the buttons
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0.8, 0, 0.8, 0) -- Adjusted size for mobile compatibility
+frame.Position = UDim2.new(0.1, 0, 0.1, 0) -- Centered on the screen
+frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+frame.Parent = screenGui
+
+-- Create a UIAspectRatioConstraint to maintain aspect ratio
+local aspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+aspectRatioConstraint.Parent = frame
+aspectRatioConstraint.AspectRatio = 0.75 -- Width to height ratio
+
+-- Create a UISizeConstraint to limit the max size
+local sizeConstraint = Instance.new("UISizeConstraint")
+sizeConstraint.Parent = frame
+sizeConstraint.MaxSize = Vector2.new(600, 800) -- Max size for larger screens
+
+-- Create a UIListLayout to organize the buttons
+local listLayout = Instance.new("UIListLayout")
+listLayout.Parent = frame
+listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+listLayout.Padding = UDim.new(0, 5)
+
+-- List of fruits from the repository
+local fruits = {
+    "Flame Fruit
+    "Dark Fruit
+    "Quak Fruit
+    "Light Fruit",
+    "Buddha Fruit",
+    "Rubber Fruit",
+    "Spring Fruit",
+    "Kilo Fruit",
+    "Rocket Fruit",
+    "Diamond Fruit",
+    "Love Fruit",
+    "Spin Fruit",
+    "Ghost Fruit",
+    "Shadow Fruit",
+    "Door Fruit",
+    "Portal Fruit",
+    "Ice Fruit",
+    "Control Fruit",
+    "Dragon (Classic)-Dragon (Classic)",
+    "Dragon Fruit",
+    "Gas Fruit",
+    "Magma Fruit",
+    "Venom Fruit",
+    "Leopard Fruit",
+    "Yeti Fruit",
+    "Sand Fruit",
+    "Soul Fruit",
+    "Spirit Fruit",
+    "Hollow Fruit",
+    "Blizzard Fruit",
+    "Bomb Fruit",
+    "Spike Fruit",
+    "Chop Fruit",
+    "Blade Fruit",
+    "Smoke Fruit",
+    "Phoenix Fruit",
+    "Falcon Fruit",
+    "Sound Fruit",
+    "Mammoth Fruit",
+    "Rumble Fruit",
+    "Spider Fruit",
+    "Gravity Fruit",
+    "Pain Fruit",
+    "Barrier Fruit",
+    "Kitsune Fruit",
+    "T-Rex Fruit",
+    "Dough Fruit",
+    "Bastar Fruit",
+    "Meme Fruit",
+    "Rogue Fruit"
+}
+
+-- Function to spawn a fruit in front of the player
+local function spawnFruit(fruitType)
+    -- Get the player's current position and orientation
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+    -- Calculate the spawn position in front of the player
+    local spawnPosition = humanoidRootPart.Position + humanoidRootPart.CFrame.LookVector * 5
+
+    -- Create the fruit part (or model if available)
+    local fruit = Instance.new("Part")
+    fruit.Name = fruitType
+    fruit.Size = Vector3.new(2, 2, 2)
+    fruit.Position = spawnPosition
+    fruit.Anchored = true
+    fruit.Parent = workspace
+
+    -- Optional: Add any other properties like transparency, color, or custom meshes
+    fruit.BrickColor = BrickColor.new("Bright red") -- Example color change
+    -- If you have a model, replace the above with something like:
+    -- local fruitModel = game.ServerStorage.Fruits:FindFirstChild(fruitType)
+    -- fruitModel:Clone().Parent = workspace
+    print(fruitType .. " fruit spawned in front of the player!")
+end
+
+-- Create buttons for each fruit
+for _, fruitType in ipairs(fruits) do
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, 0, 0, 50)
+    button.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Text = fruitType
+    button.Parent = frame
+
+    -- When the button is clicked, spawn the fruit
+    button.MouseButton1Click:Connect(function()
+        spawnFruit(fruitType)
+    end)
+end
